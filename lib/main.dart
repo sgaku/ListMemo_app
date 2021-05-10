@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,11 +31,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class Data {
-  final String text;
+  final String title;
+  final String body;
   final Color color;
 
   Data({
-    this.text,
+    this.title,
+    this.body,
     this.color,
   });
 }
@@ -51,36 +51,41 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>EditPage(),
-            ),
-          );
-        },
-        child: Container(
-          padding: EdgeInsets.all(16),
-          child: GridView.count(
-            childAspectRatio: 3 / 4,
-            crossAxisCount: 3,
-            children: List.generate(dataList.length, (index) {
-              return Center(
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: GridView.count(
+          childAspectRatio: 3 / 4,
+          crossAxisCount: 3,
+          children: List.generate(dataList.length, (index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditPage(
+                      data: dataList[index],
+                      onEdited: (newData) {
+                        dataList[index] = newData;
+                      },
+                    ),
+                  ),
+                );
+              },
+              child: Center(
                 child: Container(
                   margin: EdgeInsets.all(16),
                   color: dataList[index].color,
                   width: double.infinity,
                   height: double.infinity,
                   child: Text(
-                    dataList[index].text,
+                    dataList[index].title,
                     style: Theme.of(context).textTheme.headline5,
                     textAlign: TextAlign.center,
                   ),
                 ),
-              );
-            }),
-          ),
+              ),
+            );
+          }),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -88,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
               return NextPage(onSaved: (text, color) {
-                final data = Data(text: text, color: color);
+                final data = Data(title: text, color: color);
                 setState(() {
                   dataList.add(data);
                 }); //関数が呼び出された時の処理
