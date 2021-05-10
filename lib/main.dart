@@ -1,5 +1,10 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'edit_page.dart';
+import 'next_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,8 +32,18 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+class Data {
+  final String text;
+  final Color color;
+
+  Data({
+    this.text,
+    this.color,
+  });
+}
+
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> data = [];
+  List<Data> dataList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -36,81 +51,53 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: GridView.count(
-          childAspectRatio: 3 / 4,
-          crossAxisCount: 3,
-          children: List.generate(data.length, (index) {
-            return Center(
-              child: Container(
-                margin: EdgeInsets.all(16),
-                color: Colors.green,
-                width: double.infinity,
-                height: double.infinity,
-                child: Text(
-                  data[index],
-                  style: Theme.of(context).textTheme.headline5,
-                  textAlign: TextAlign.center,
+      body: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>EditPage(),
+            ),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: GridView.count(
+            childAspectRatio: 3 / 4,
+            crossAxisCount: 3,
+            children: List.generate(dataList.length, (index) {
+              return Center(
+                child: Container(
+                  margin: EdgeInsets.all(16),
+                  color: dataList[index].color,
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Text(
+                    dataList[index].text,
+                    style: Theme.of(context).textTheme.headline5,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final newListText = await Navigator.of(context).push(
+        onPressed: () {
+          Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
-              return NextPage();
+              return NextPage(onSaved: (text, color) {
+                final data = Data(text: text, color: color);
+                setState(() {
+                  dataList.add(data);
+                }); //関数が呼び出された時の処理
+              });
             }),
           );
-          setState(() {
-            data.add(newListText);
-          });
         },
         tooltip: 'add your note',
         child: Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class NextPage extends StatefulWidget {
-  @override
-  _NextPageState createState() => _NextPageState();
-}
-
-class _NextPageState extends State<NextPage> {
-  String note = '';
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('New Note'),
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            Text(note),
-            TextField(
-              autofocus: true,
-              onChanged: (String value) {
-                setState(() {
-                  value = note;
-                });
-              },
-            ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(note);
-                },
-                child: Text('完了'),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
