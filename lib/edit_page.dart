@@ -1,24 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_list/next_page.dart';
 
 import 'main.dart';
 
-class EditPage extends StatefulWidget {
+class NewPage extends StatefulWidget {
   final Data data;
   final void Function(Data) onEdited;
 
-  EditPage({
+  NewPage({
     @required this.data,
     @required this.onEdited,
   });
 
   @override
-  _EditPageState createState() => _EditPageState();
+  _NewPageState createState() => _NewPageState();
 }
 
-class _EditPageState extends State<EditPage> {
+class _NewPageState extends State<NewPage> {
   String editingBody;
   TextEditingController controller;
 
@@ -48,24 +47,24 @@ class _EditPageState extends State<EditPage> {
             },
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: controller,
-                autofocus: true,
-                maxLines: null,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                ),
-                keyboardType: TextInputType.multiline,
-                onChanged: (text) {
-                  editingBody = text;
-                },
+        body: PageView.builder(
+          itemCount: 100,
+
+          itemBuilder: (context, index) {
+            return TextField(controller: controller,
+              autofocus: true,
+              maxLines: null,
+              decoration: InputDecoration(
+                border: InputBorder.none,
               ),
-            ],
-          ),
-        ));
+              keyboardType: TextInputType.multiline,
+              onChanged: (text) {
+                editingBody = text;
+              },);
+          },
+
+        )
+
+    );
   }
 }
