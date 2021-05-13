@@ -46,12 +46,32 @@ class _NewPageState extends State<NewPage> {
               Navigator.pop(context);
             },
           ),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.save),
+                onPressed: () {
+                  final newData = Data(
+                    title: widget.data.title,
+                    color: widget.data.color,
+                    body: editingBody,
+                  );
+                  widget.onEdited(newData);
+                  Navigator.pop(context);
+                },
+                tooltip:'保存',
+              ),
+            )
+          ],
         ),
-        body: PageView.builder(
-          itemCount: 100,
-
-          itemBuilder: (context, index) {
-            return TextField(controller: controller,
+        body: Column(
+          children: [
+            TextField(
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+              controller: controller,
               autofocus: true,
               maxLines: null,
               decoration: InputDecoration(
@@ -60,11 +80,9 @@ class _NewPageState extends State<NewPage> {
               keyboardType: TextInputType.multiline,
               onChanged: (text) {
                 editingBody = text;
-              },);
-          },
-
-        )
-
-    );
+              },
+            ),
+          ],
+        ));
   }
 }

@@ -34,11 +34,13 @@ class _NextPageState extends State<NextPage> {
           children: [
             TextField(
               autofocus: true,
+              maxLength: 15,
               onChanged: (String value) {
                 note = value;
               },
             ),
             TextButton(
+              child: Text('色を選択する', style: TextStyle(color: chosenColor)),
               onPressed: () {
                 showDialog(
                   context: context,
@@ -64,7 +66,6 @@ class _NextPageState extends State<NextPage> {
                   ),
                 );
               },
-              child: Text('色を選択する', style: TextStyle(color: chosenColor)),
             ),
             Container(
               child: ElevatedButton(

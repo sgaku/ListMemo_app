@@ -1,4 +1,5 @@
 
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter List Demo'),
+      home: MyHomePage(title: 'Memo List App'),
     );
   }
 }
@@ -65,20 +66,54 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) => NewPage(
-                          data:dataList[index],
-                          onEdited: (newData){
-                            dataList[index] = newData;
+                              data: dataList[index],
+                              onEdited: (newData) {
+                                dataList[index] = newData;
+                              },
+                            )));
+              },
+              onLongPress: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return SimpleDialog(
+                      title: Text(dataList[index].title + '　を削除しますか'),
+                      children: <Widget>[
+                        TextButton(
+                          child: Text('Yes'),
+                          onPressed: () {
+                            setState(() {
+                              dataList.removeAt(index);
+                              Navigator.pop(context);
+                            });
+
                           },
-                        )));
+                        ),
+                        TextButton(
+                          child: Text('No'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               child: Container(
                 margin: EdgeInsets.all(16),
-                color: dataList[index].color,
+                decoration: BoxDecoration(
+                    border: Border.all(color: dataList[index].color, width: 5),
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
                 width: double.infinity,
                 height: double.infinity,
                 child: Text(
                   dataList[index].title,
-                  style: Theme.of(context).textTheme.headline5,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.normal,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
