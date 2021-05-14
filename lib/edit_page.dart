@@ -60,29 +60,25 @@ class _NewPageState extends State<NewPage> {
                   widget.onEdited(newData);
                   Navigator.pop(context);
                 },
-                tooltip:'保存',
+                tooltip: '保存',
               ),
             )
           ],
         ),
-        body: Column(
-          children: [
-            TextField(
-              onTap: () {
-                FocusScope.of(context).requestFocus(new FocusNode());
-              },
-              controller: controller,
-              autofocus: true,
-              maxLines: null,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-              ),
-              keyboardType: TextInputType.multiline,
-              onChanged: (text) {
-                editingBody = text;
-              },
-            ),
-          ],
+        body: TextField(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          controller: controller,
+          autofocus: true,
+          maxLines: null,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+          ),
+          keyboardType: TextInputType.multiline,
+          onChanged: (text) {
+            editingBody = text;
+          },
         ));
   }
 }

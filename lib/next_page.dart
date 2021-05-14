@@ -34,7 +34,7 @@ class _NextPageState extends State<NextPage> {
           children: [
             TextField(
               autofocus: true,
-              maxLength: 15,
+              maxLength: 20,
               onChanged: (String value) {
                 note = value;
               },

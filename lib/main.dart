@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Memo List App'),
+      home: MyHomePage(title: '簡単メモ'),
     );
   }
 }
@@ -32,13 +32,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class Data {
-  final String text;
-  final String title;
+  String title;
   final String body;
   final Color color;
 
   Data({
-    this.text,
     this.title,
     this.body,
     this.color,
@@ -47,6 +45,7 @@ class Data {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Data> dataList = [];
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,22 +76,48 @@ class _MyHomePageState extends State<MyHomePage> {
                   context: context,
                   builder: (context) {
                     return SimpleDialog(
-                      title: Text(dataList[index].title + '　を削除しますか'),
+                      title: Text(dataList[index].title + '　を編集・削除'),
                       children: <Widget>[
                         TextButton(
-                          child: Text('Yes'),
+                          child: Text('削除する'),
                           onPressed: () {
                             setState(() {
                               dataList.removeAt(index);
                               Navigator.pop(context);
                             });
-
                           },
                         ),
                         TextButton(
-                          child: Text('No'),
+                          child: Text('編集する'),
                           onPressed: () {
-                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SimpleDialog(
+                                  children: <Widget>[
+                                    TextField(
+                                      decoration: InputDecoration(
+                                        hintText: 'タイトル',
+                                      ),
+                                      onChanged: (text) {
+                                        setState(() {
+                                          dataList[index].title = text;
+                                        });
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text('完了'),
+                                      onPressed: () {
+                                        Navigator.popUntil(
+                                            context,
+                                            (Route<dynamic> route) =>
+                                                route.isFirst);
+                                      },
+                                    )
+                                  ],
+                                );
+                              },
+                            );
                           },
                         ),
                       ],
