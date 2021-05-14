@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   context: context,
                   builder: (context) {
                     return SimpleDialog(
-                      title: Text(dataList[index].title + '　を編集・削除'),
+                      title: Text(dataList[index].title + '　を削除・編集'),
                       children: <Widget>[
                         TextButton(
                           child: Text('削除する'),
