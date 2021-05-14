@@ -45,7 +45,7 @@ class Data {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Data> dataList = [];
-  int count = 0;
+
 
   @override
   Widget build(BuildContext context) {
