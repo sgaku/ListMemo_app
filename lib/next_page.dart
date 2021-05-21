@@ -26,7 +26,7 @@ class _NextPageState extends State<NextPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Note'),
+        title: Text('新しいメモを追加'),
       ),
       body: Container(
         padding: EdgeInsets.all(16),
