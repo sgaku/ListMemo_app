@@ -1,7 +1,3 @@
-# flutter_ListMemo
-
-A new Flutter application.
-
 # ListMemo_app
 簡単なメモアプリを作成しました。メモの内容・タイトルが編集できます。
 
